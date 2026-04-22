@@ -11,7 +11,7 @@ import urllib.request
 import urllib.error
 
 # --- PASTE YOUR GEMINI API KEY HERE ---
-GEMINI_API_KEY = "AIzaSyA5Ya1G75a4ufL8xwi-CdgqtETwb_AkUR4"
+GEMINI_API_KEY = "AIzaSyBe9gMj2QE1uok32nXygR8oB3nh4Part9g"
 # --------------------------------------
 
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
@@ -99,7 +99,10 @@ class AIHandler(http.server.BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
-            self.wfile.write(json.dumps(response).encode("utf-8"))
+            try:
+                self.wfile.write(json.dumps(response).encode("utf-8"))
+            except BrokenPipeError:
+                pass
 
     def do_OPTIONS(self):
         self.send_response(200)
